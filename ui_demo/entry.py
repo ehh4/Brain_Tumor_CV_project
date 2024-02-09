@@ -5,6 +5,12 @@ from page3 import page3
 # import other functions from page1, page2, and page3
 
 def intro():
+    hide_decoration_bar_style = '''
+      <style>
+          header {visibility: hidden;}
+      </style>
+    '''
+    st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
     st.write("# Welcome to Streamlit! 👋")
     st.markdown(
         """

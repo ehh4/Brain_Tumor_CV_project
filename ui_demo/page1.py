@@ -5,8 +5,17 @@ class page1:
     def __init__(self) -> None:
         pass
 
+    def __hideHeader__(self) -> None:
+        hide_decoration_bar_style = '''
+            <style>
+                header {visibility: hidden;}
+            </style>
+        '''
+        st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
+
 
     def renderPage1(self) -> None:
+        self.__hideHeader__()
         st.write("# Brain Tumor Informations")
         st.markdown(
         """

@@ -7,6 +7,16 @@ class page3:
     def __init__(self) -> None:
         pass
 
+
+    def __hideHeader__(self) -> None:
+        hide_decoration_bar_style = '''
+            <style>
+                header {visibility: hidden;}
+            </style>
+        '''
+        st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
+
+
     # Streamed response emulator
     def response_generator(self) -> None:
         response = random.choice(
@@ -22,6 +32,7 @@ class page3:
 
     
     def renderPage3(self) -> None:
+        self.__hideHeader__()
         st.title("Simple chat")
 
         # Initialize chat history
