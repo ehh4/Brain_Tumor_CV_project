@@ -1,21 +1,12 @@
 import streamlit as st
 import random
 import time
+from style import st_style
 
 
 class page3:
     def __init__(self) -> None:
         pass
-
-
-    def __hideHeader__(self) -> None:
-        hide_decoration_bar_style = '''
-            <style>
-                header {visibility: hidden;}
-            </style>
-        '''
-        st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
-
 
     # Streamed response emulator
     def response_generator(self) -> None:
@@ -32,7 +23,8 @@ class page3:
 
     
     def renderPage3(self) -> None:
-        self.__hideHeader__()
+        st_style.config_page(page_title="ChatBot", page_icon="🤖")
+        st_style.hide_header()
         st.title("Simple chat")
 
         # Initialize chat history
@@ -58,3 +50,7 @@ class page3:
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
                 
+
+if __name__ == "__main__":  
+    page_3 = page3()
+    page_3.renderPage3()
