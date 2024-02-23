@@ -5,7 +5,7 @@ from style import st_style
 def intro():
     st_style.config_page(page_title="Brain Tumor Entry Page", page_icon="🧠")
     st_style.hide_header()
-    st.markdown("# Brain Tumor Informations")
+    st.markdown("# Brain Tumor Information")
     st.markdown(
       """
       An estimated 94,390 people in the U.S. will receive a primary brain tumor diagnosis in 2023. The resources below will help you throughout your experience.
@@ -28,7 +28,7 @@ def intro():
       """
       )
 
-    st.image('brain_img.png', caption='Brain Structure and their Functions')
+    st.image('ui_demo/brain_img.png', caption='Brain Structure and their Functions')
 
 
     st.markdown(
