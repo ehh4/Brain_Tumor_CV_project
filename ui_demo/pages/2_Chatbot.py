@@ -1,3 +1,4 @@
+""" Interacts with user in brain tumor related information. """
 import streamlit as st
 import random
 import time
@@ -10,6 +11,7 @@ class page3:
 
     # Streamed response emulator
     def response_generator(self) -> None:
+        """ Chatbot generates response. """
         response = random.choice(
             [
                 "Hello there! How can I assist you today?",
@@ -22,7 +24,8 @@ class page3:
             time.sleep(0.05)
 
     
-    def renderPage3(self) -> None:
+    def render_page3(self) -> None:
+        """ Renders chat interface. """
         st_style.config_page(page_title="ChatBot", page_icon="🤖")
         st_style.hide_header()
         st.title("Simple chat")
@@ -53,4 +56,4 @@ class page3:
 
 if __name__ == "__main__":  
     page_3 = page3()
-    page_3.renderPage3()
+    page_3.render_page3()

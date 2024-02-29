@@ -1,3 +1,9 @@
+"""
+Brain Tumor Prediction page. Users can upload a brain CT image and get a predicted tumor severity image back.
+    getPredictedImg: result_dir is where the predicted img is saved; returns the full img_path.
+    preprocessImg: returns the grayscaled img of size 640 * 640.
+    render_page2: displays the brain tumor prediction page.
+"""
 import os
 import cv2
 import streamlit as st
@@ -15,7 +21,8 @@ class page2:
         self.MODEL = '/opt/homebrew/runs/segment/train4/weights/best.pt'
     
     
-    def getPredictedImg(self, result_dir) -> str:
+    def get_predicted_img(self, result_dir) -> str:
+        """ Returns predicted img. """
         img_path = str(result_dir) + "/"
         filenames = os.listdir(result_dir)
         for f in filenames:
@@ -23,17 +30,37 @@ class page2:
         return img_path
 
     
-    def preprocessImg(self) -> None:
+    def preprocess_img(self) -> None:
+        """ Resize img to 640 * 640 and grayscaled the img before prediction. """
         img = cv2.imread("input.png")
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (640, 640), interpolation = cv2.INTER_AREA)
         cv2.imwrite("input.png", img)
 
 
-    def renderPage2(self) -> None:
+    def render_page2(self) -> None:
+        """ Renders Brain Tumor Prediction page in streamlit. """
         st_style.config_page(page_title="Brain Tumor Prediction", page_icon="✨")
         st_style.hide_header()
-        st.write("Brain Tumor Prediction Page")
+        st.title("Brain Tumor Prediction Page")
+        st.markdown(
+            """ 
+            **⚠️ Important Reminder: Medical Prediction Tool**
+
+            Dear Users,
+            
+            Our Brain Tumor Prediction tool offers suggestions based on input data. It is not a substitute for professional medical advice.
+            
+            **👨‍⚕️ Seek Professional Help:**
+            For related health concerns, consult a licensed healthcare provider. They can provide accurate, personalized advice based on your specific situation.
+
+            **❗️ Use Responsibly:**
+            Our tool supports, but doesn't replace professional care. Don't delay seeking medical advice based solely on tool suggestions.
+
+            Your health matters most. Use our tool as a guide, not a diagnosis.
+
+            Please upload your brain CT img in the file uploader below by clicking on the "Browse Files" button. Thank you for using our tool!
+            """)
         upload_img = st.file_uploader("Choose an image")
         if upload_img is not None:
             # read img as bytes:
@@ -45,16 +72,16 @@ class page2:
                 f.write(bytesio_object.getbuffer())
             
             # grayscale and resize to 640 * 640
-            self.preprocessImg()
+            self.preprocess_img()
 
             model = YOLO(self.MODEL)
             results = model.predict(source='input.png', save=True)
             result_dir = results[0].save_dir
-            img_path = self.getPredictedImg(result_dir)
+            img_path = self.get_predicted_img(result_dir)
             st.write(img_path)
             st.image(img_path)
 
 
 if __name__ == "__main__":
     page_2 = page2()
-    page_2.renderPage2()
+    page_2.render_page2()

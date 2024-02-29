@@ -1,8 +1,13 @@
+"""
+Landing page: Includes brain tumor introduction (signs, symptoms, additional resources)
+    intro: display the landing page. 
+"""
 import streamlit as st
 from style import st_style
 
 
 def intro():
+    """ Brain tumor background information. """
     st_style.config_page(page_title="Brain Tumor Entry Page", page_icon="🧠")
     st_style.hide_header()
     st.markdown("# Brain Tumor Informations")
@@ -28,7 +33,7 @@ def intro():
       """
       )
 
-    st.image('brain_img.png', caption='Brain Structure and their Functions')
+    st.image('ui_demo/brain_img.png', caption='Brain Structure and their Functions')
 
 
     st.markdown(
