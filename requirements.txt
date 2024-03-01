@@ -1,0 +1,12 @@
+ipython
+jupyter
+matplotlib
+notebook
+numpy
+opencv-python
+pandas
+pylint
+scipy
+seaborn
+torch
+ultralytics
