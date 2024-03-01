@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+requirements.txt
+data_515_brain_tumor_computer_vision.egg-info/PKG-INFO
+data_515_brain_tumor_computer_vision.egg-info/SOURCES.txt
+data_515_brain_tumor_computer_vision.egg-info/dependency_links.txt
+data_515_brain_tumor_computer_vision.egg-info/requires.txt
+data_515_brain_tumor_computer_vision.egg-info/top_level.txt
