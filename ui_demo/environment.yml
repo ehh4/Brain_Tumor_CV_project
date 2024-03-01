@@ -2,9 +2,9 @@ name: project_env
 channels:
   - defaults
 dependencies:
-- python=3.8
 - python=3.9
 - python=3.10
+- python=3.11
 - pip
 - pip:
   - -r requirements.txt
