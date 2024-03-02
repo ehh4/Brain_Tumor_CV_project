@@ -1,7 +1,7 @@
 """ Interacts with user in brain tumor related information. """
-import streamlit as st
 import random
 import time
+import streamlit as st
 from style import st_style
 
 
@@ -23,7 +23,7 @@ class page3:
             yield word + " "
             time.sleep(0.05)
 
-    
+
     def render_page3(self) -> None:
         """ Renders chat interface. """
         st_style.config_page(page_title="ChatBot", page_icon="🤖")
@@ -52,8 +52,8 @@ class page3:
                 response = st.write_stream(self.response_generator())
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
-                
 
-if __name__ == "__main__":  
+
+if __name__ == "__main__":
     page_3 = page3()
     page_3.render_page3()

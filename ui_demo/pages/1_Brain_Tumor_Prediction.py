@@ -18,9 +18,9 @@ from io import BytesIO
 
 class page2:
     def __init__(self) -> None:
-        self.MODEL = '/opt/homebrew/runs/segment/train4/weights/best.pt'
-    
-    
+        self.MODEL = 'train4/weights/best.pt'
+
+
     def get_predicted_img(self, result_dir) -> str:
         """ Returns predicted img. """
         img_path = str(result_dir) + "/"
@@ -29,7 +29,7 @@ class page2:
             img_path += str(f)
         return img_path
 
-    
+
     def preprocess_img(self) -> None:
         """ Resize img to 640 * 640 and grayscaled the img before prediction. """
         img = cv2.imread("input.png")
@@ -41,27 +41,25 @@ class page2:
     def render_page2(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
         st_style.config_page(page_title="Brain Tumor Prediction", page_icon="✨")
-        st_style.hide_header()
-        st.title("Brain Tumor Prediction Page")
-        st.markdown(
-            """ 
-            **⚠️ Important Reminder: Medical Prediction Tool**
+        st.markdown("<h1 style='text-align: center;'>Brain Tumor Prediction Page</h1>", unsafe_allow_html=True)
+        st.markdown("""<p style='font-size: 20px;'>
+                    <b>⚠️ Important Reminder: Medical Prediction Tool</b> <br>
+                    Dear Users,<br>
+                    Our Brain Tumor Prediction tool offers suggestions based on input data. It is not a substitute for professional medical advice.<br>
+                    <br>
+                    <b>👨‍⚕️ Seek Professional Help:</b> <br>
+                    For related health concerns, consult a licensed healthcare provider. They can provide accurate, personalized advice based on your specific situation.<br>
+                    <br>
+                    <b> ❗️ Use Responsibly: </b> <br>
+                    Our tool supports, but doesn't replace professional care. Don't delay seeking medical advice based solely on tool suggestions.<br>
+                    Your health matters most. Use our tool as a guide, not a diagnosis.<br>
+                    <br>
+                    <br>
+                    Please upload your brain CT image in the file uploader below by clicking on the "Browse Files" button. Thank you for using our tool!
+                    </p>""",
+                    unsafe_allow_html=True)
 
-            Dear Users,
-            
-            Our Brain Tumor Prediction tool offers suggestions based on input data. It is not a substitute for professional medical advice.
-            
-            **👨‍⚕️ Seek Professional Help:**
-            For related health concerns, consult a licensed healthcare provider. They can provide accurate, personalized advice based on your specific situation.
-
-            **❗️ Use Responsibly:**
-            Our tool supports, but doesn't replace professional care. Don't delay seeking medical advice based solely on tool suggestions.
-
-            Your health matters most. Use our tool as a guide, not a diagnosis.
-
-            Please upload your brain CT img in the file uploader below by clicking on the "Browse Files" button. Thank you for using our tool!
-            """)
-        upload_img = st.file_uploader("Choose an image")
+        upload_img = st.file_uploader("Upload image in format: .jpg, .jpeg, .png, .tiff, .tif")
         if upload_img is not None:
             # read img as bytes:
             bytes_data = upload_img.getvalue()
@@ -70,7 +68,7 @@ class page2:
             # save the img as png
             with open("input.png", "wb") as f:
                 f.write(bytesio_object.getbuffer())
-            
+
             # grayscale and resize to 640 * 640
             self.preprocess_img()
 

@@ -3,11 +3,13 @@ import streamlit as st
 
 
 class st_style:
+
     def config_page(page_title, page_icon):
         """ Configure page. """
         st.set_page_config(
             page_title = page_title,
-            page_icon = page_icon
+            page_icon = page_icon,
+            layout = "wide"
         )
 
 
