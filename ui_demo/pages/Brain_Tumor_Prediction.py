@@ -11,7 +11,7 @@ import pandas as pd
 
 
 from ultralytics import YOLO
-from ui_demo.style import st_style
+from style import st_style
 from io import BytesIO
 
 
