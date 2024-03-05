@@ -12,7 +12,9 @@ from io import BytesIO
 
 class page2:
     def __init__(self) -> None:
-        self.MODEL = 'train4/weights/best.pt'
+        self.MODEL_locate_tumor = 'models/locate_tumor/weights/best.pt'
+        self.MODEL_is_scan = 'models/is_scan/weights/best.pt'
+        self.MODEL_is_tumor = "models/is_tumor/weights/best.pt"
     
     
     def getPredictedImg(self, result_dir) -> str:
@@ -28,6 +30,7 @@ class page2:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (640, 640), interpolation = cv2.INTER_AREA)
         cv2.imwrite("input.png", img)
+        
 
 
     def renderPage2(self) -> None:
@@ -56,15 +59,31 @@ class page2:
                 # grayscale and resize to 640 * 640
                 self.preprocessImg()
 
-                model = YOLO(self.MODEL)
-                results = model.predict(source='input.png', save=True)
-                for i in results:
-                    print(i)
-                result_dir = results[0].save_dir
-                img_path = self.getPredictedImg(result_dir)
-                st.write(img_path)
-                st.image(img_path)
-                st.write("test 123")
+                # determines if image is brain scan
+                is_scan_model = YOLO(self.MODEL_is_scan)
+                scan_results = is_scan_model.predict(source='input.png', save=True)
+                print(scan_results[0].probs.top1)
+                print(scan_results[0].probs.top1conf.item())
+                if (scan_results[0].probs.top1 == 1) & (scan_results[0].probs.top1conf.item() > 0.8):
+                    is_tumor_model = YOLO(self.MODEL_is_tumor)
+                    tumor_results = is_tumor_model.predict(source='input.png', save=True)
+                    if (tumor_results[0].probs.top1 == 1) & (tumor_results[0].probs.top1conf.item() > 0.7):
+                        locate_tumor_model = YOLO(self.MODEL_locate_tumor)
+                        location_results = locate_tumor_model.predict(source='input.png', save=True)
+                        # run locate tumor model
+                        result_dir = location_results[0].save_dir
+                        img_path = self.getPredictedImg(result_dir)
+                        st.write(img_path)
+                        st.image(img_path)
+                        st.write("Bad news, probably a tumor :(")
+                        return
+                    else:
+                        st.write("Based on the current model, we don't believe there's a tumor in this brain scan")
+                        return
+                else:
+                    st.write("Unfortunately, this image is not recognized as a brain scan. Please double-check to ensure you've uploaded a suitable brain scan image")
+                    return
+
 
 
 if __name__ == "__main__":
