@@ -1,3 +1,4 @@
+""" Brain Tumor Landing Page. """
 import streamlit as st
 from style import st_style
 

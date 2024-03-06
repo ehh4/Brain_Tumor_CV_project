@@ -8,12 +8,11 @@ import os
 import cv2
 import streamlit as st
 import pandas as pd
-
-
 from ultralytics import YOLO
+import sys
+sys.path.append('ui_demo')
 from style import st_style
 from io import BytesIO
-
 
 
 class page2:
@@ -23,25 +22,37 @@ class page2:
         self.MODEL_is_tumor = "models/is_tumor/weights/best.pt"
     
     
-    def getPredictedImg(self, result_dir) -> str:
+    def __get_predicted_img__(self, result_dir) -> str:
         """ Returns predicted img. """
+        if not isinstance(result_dir, str):
+            raise TypeError("result_dir should be a string!")
         img_path = str(result_dir) + "/"
-        filenames = os.listdir(result_dir)
+        if os.path.exists(result_dir):
+            filenames = os.listdir(result_dir)
+        else:
+            raise ValueError("[Wrong directory] The directory doesn't exist!")
+        if len(filenames) != 1:
+            wrong_file = "[Wrong directory] The directory contains more than one file. \
+                          This is the predicted img directory!"
+            raise ValueError(wrong_file)
         for f in filenames:
             img_path += str(f)
         return img_path
 
     
-    def preprocessImg(self) -> None:
+    def __preprocess_img__(self, input_image) -> None:
         """ Resize img to 640 * 640 and grayscaled the img before prediction. """
-        img = cv2.imread("input.png")
+        if not isinstance(input_image, str):
+            raise TypeError("[Wrong input type] The input is not a string!")
+        img = cv2.imread(input_image)
+        if img is None:
+            raise ValueError("[Wrong image path] The inputed image is invalid!")
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (640, 640), interpolation = cv2.INTER_AREA)
         cv2.imwrite("input.png", img)
-        
 
 
-    def renderPage2(self) -> None:
+    def render_page2(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
         st_style.config_page(page_title="Brain Tumor Prediction", page_icon="✨")
         st.title("Brain Tumor Prediction Tool")
@@ -80,7 +91,7 @@ class page2:
                     f.write(bytesio_object.getbuffer())
                 
                 # grayscale and resize to 640 * 640
-                self.preprocessImg()
+                self.__preprocess_img__("input.png")
 
                 # determines if image is brain scan
                 is_scan_model = YOLO(self.MODEL_is_scan)
@@ -95,8 +106,8 @@ class page2:
                         location_results = locate_tumor_model.predict(source='input.png', save=True)
                         # run locate tumor model
                         result_dir = location_results[0].save_dir
-                        img_path = self.getPredictedImg(result_dir)
-                        st.write(img_path)
+                        img_path = self.__get_predicted_img__(result_dir)
+                        # st.write(img_path)
                         st.image(img_path)
                         st.write("Bad news, probably a tumor :(")
                         return
@@ -108,7 +119,6 @@ class page2:
                     return
 
 
-
 if __name__ == "__main__":
     page_2 = page2()
-    page_2.renderPage2()
+    page_2.render_page2()
