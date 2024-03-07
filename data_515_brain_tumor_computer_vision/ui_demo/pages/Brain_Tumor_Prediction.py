@@ -15,15 +15,15 @@ from io import BytesIO
 import cv2
 import streamlit as st
 from ultralytics import YOLO
-from data_515_brain_tumor_computer_vision.ui_demo.style import CustomStyle
+from ui_demo.style import CustomStyle
 
 
 class Page2:
     """ Brain Prediction Page Class. """
     def __init__(self) -> None:
-        self.mod_loc_t = 'data_515_brain_tumor_computer_vision/models/locate_tumor/weights/best.pt'
-        self.mod_is_scan = 'data_515_brain_tumor_computer_vision/models/is_scan/weights/best.pt'
-        self.mod_is_tumor = 'data_515_brain_tumor_computer_vision/models/is_tumor/weights/best.pt'
+        self.mod_loc_t = 'models/locate_tumor/weights/best.pt'
+        self.mod_is_scan = 'models/is_scan/weights/best.pt'
+        self.mod_is_tumor = 'models/is_tumor/weights/best.pt'
 
 
     def __get_predicted_img__(self, result_dir) -> str:

@@ -4,7 +4,7 @@
 import random
 import time
 import streamlit as st
-from data_515_brain_tumor_computer_vision.ui_demo.style import CustomStyle
+from ui_demo.style import CustomStyle
 
 
 class Page3:

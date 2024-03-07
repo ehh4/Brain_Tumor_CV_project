@@ -1,7 +1,7 @@
 """test_funcs.py"""
 import unittest
 import cv2
-import data_515_brain_tumor_computer_vision.ui_demo.pages.Brain_Tumor_Prediction as bp
+import ui_demo.pages.Brain_Tumor_Prediction as bp
 
 
 class TestFunctions(unittest.TestCase):

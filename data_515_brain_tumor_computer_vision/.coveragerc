@@ -1,0 +1,12 @@
+[run]
+omit =
+    config.py
+    config-3.py
+
+[report]
+omit =
+    *__init__*
+    *tests*
+    */opt/homebrew/lib/python3.10/site-packages/*
+exclude_lines =
+    if __name__ == .__main__.:
