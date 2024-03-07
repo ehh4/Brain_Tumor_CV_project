@@ -92,7 +92,6 @@ jobs:
       # Next step: run the unit tests with code coverage. ##CHANGE FOR MAIN FILE
       - name: Unit tests
         run: |
-          cd ui_demo
           coverage run -m unittest discover
           coverage report
           coverage lcov
