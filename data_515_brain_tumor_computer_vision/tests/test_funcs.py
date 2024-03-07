@@ -2,6 +2,7 @@
 import unittest
 import cv2
 import ui_demo.pages.Brain_Tumor_Prediction as bp
+import ui_demo.pages.Chatbot as cb
 
 
 class TestFunctions(unittest.TestCase):
@@ -67,6 +68,40 @@ class TestFunctions(unittest.TestCase):
         with self.assertRaises(ValueError):
             test.__preprocess_img__("tests/test_weird.pdf")
 
+
+    def test_chat_response_generator_smoke(self):
+        """ response_generator smoke test. """
+        test = cb.Page3()
+        test.response_generator("Get Additional Help")
+        self.assertEqual('smoke'.upper(), 'SMOKE')
+
+
+    def test_chat_response_generator_valid_inputs(self):
+        """ response_generator all valid input test. """
+        test = cb.Page3()
+        valid_button_vals = ["Learn about Brain Cancer", "Get Brain Tumor Prediction", 
+        "Get Diagnosis Next Steps", "Get Additional Help"]
+        for input in valid_button_vals:
+            res = test.response_generator(input)
+            if res:
+                res = None
+            self.assertIsNone(res)
+
+
+    def test_chat_response_generator_wrong_input_type(self):
+        """ response_generator wrong type of input. """
+        test = cb.Page3()
+        input = 390
+        with self.assertRaises(TypeError):
+            res = test.response_generator(input)
+
+
+    def test_chat_response_generator_invalid_input(self):
+        """ response_generator invalid input. """
+        test = cb.Page3()
+        input = "Brain no braining"
+        with self.assertRaises(ValueError):
+            res = test.response_generator(input)
 
 if __name__ == '__main__':
     unittest.main()

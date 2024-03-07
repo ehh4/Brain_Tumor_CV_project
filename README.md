@@ -1,3 +1,4 @@
+![Build/Test Workflow](https://https://github.com/tchiang0/data_515_brain_tumor_computer_vision/actions/workflows/build_test.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/tchiang0/data_515_brain_tumor_computer_vision/badge.svg?branch=main)](https://coveralls.io/github/tchiang0/data_515_brain_tumor_computer_vision?branch=main)
 ### Brain Tumor Identification using Computer Vision Techniques (Instance and Sementics Segmentation)
 

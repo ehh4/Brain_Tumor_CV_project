@@ -60,7 +60,8 @@ class Page2:
         """ Renders Brain Tumor Prediction page in streamlit. """
         st_style = CustomStyle()
         st_style.config_page(page_title="Brain Tumor Prediction", page_icon="✨")
-        st.title("Brain Tumor Prediction Tool")
+        st.markdown("<h1 style='text-align: center;'>Brain Tumor Information</h1>",
+                    unsafe_allow_html=True)
         st_style.hide_header()
         st.markdown("""<p style='font-size: 20px;'>
                             <b>⚠️ Important Reminder: Medical Prediction Tool</b> <br>

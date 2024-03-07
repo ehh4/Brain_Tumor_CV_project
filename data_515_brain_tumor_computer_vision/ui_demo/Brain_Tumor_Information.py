@@ -1,4 +1,5 @@
 # pylint: disable=invalid-name
+# pylint: disable=import-error
 """ Brain Tumor Landing Page. """
 import streamlit as st
 from ui_demo.style import CustomStyle
