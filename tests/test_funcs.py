@@ -8,15 +8,15 @@ class TestFunctions(unittest.TestCase):
     def test_get_predicted_img_smoke(self):
         """ __get_predicted_img__ smoke test. """
         test = bp.Page2()
-        test.__get_predicted_img__('/opt/homebrew/runs/segment/predict')
+        test.__get_predicted_img__('tests/predict')
         self.assertEqual('smoke'.upper(), 'SMOKE')
 
 
     def test_get_predicted_img(self):
         """ __get_predicted_img__ normal functionality test. """
         test = bp.Page2()
-        img_path = test.__get_predicted_img__('/opt/homebrew/runs/segment/predict')
-        self.assertEqual(img_path, '/opt/homebrew/runs/segment/predict/input.png')
+        img_path = test.__get_predicted_img__('tests/predict')
+        self.assertEqual(img_path, 'tests/predict/input.jpg')
 
 
     def test_get_predicted_img_edge_one(self):
