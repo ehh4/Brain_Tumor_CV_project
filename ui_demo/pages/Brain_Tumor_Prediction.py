@@ -1,27 +1,33 @@
+# pylint: disable=no-member
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-locals
+# pylint: disable=invalid-name
+# pylint: disable=import-error
 """
-Brain Tumor Prediction page. Users can upload a brain CT image and get a predicted tumor severity image back.
+Brain Tumor Prediction page. 
+Users can upload a brain CT image and get a predicted tumor severity image back.
     getPredictedImg: result_dir is where the predicted img is saved; returns the full img_path.
     preprocessImg: returns the grayscaled img of size 640 * 640.
     render_page2: displays the brain tumor prediction page.
 """
 import os
-import cv2
-import streamlit as st
-import pandas as pd
-from ultralytics import YOLO
 import sys
 sys.path.append('ui_demo')
-from style import st_style
 from io import BytesIO
+from style import st_style
+import cv2
+import streamlit as st
+from ultralytics import YOLO
 
 
-class page2:
+class Page2:
+    """ Brain Prediction Page Class. """
     def __init__(self) -> None:
-        self.MODEL_locate_tumor = 'models/locate_tumor/weights/best.pt'
-        self.MODEL_is_scan = 'models/is_scan/weights/best.pt'
-        self.MODEL_is_tumor = "models/is_tumor/weights/best.pt"
-    
-    
+        self.model_locate_tumor = 'models/locate_tumor/weights/best.pt'
+        self.model_is_scan = 'models/is_scan/weights/best.pt'
+        self.model_is_tumor = 'models/is_tumor/weights/best.pt'
+
+
     def __get_predicted_img__(self, result_dir) -> str:
         """ Returns predicted img. """
         if not isinstance(result_dir, str):
@@ -39,7 +45,7 @@ class page2:
             img_path += str(f)
         return img_path
 
-    
+
     def __preprocess_img__(self, input_image) -> None:
         """ Resize img to 640 * 640 and grayscaled the img before prediction. """
         if not isinstance(input_image, str):
@@ -80,7 +86,6 @@ class page2:
             file_extension = os.path.splitext(upload_img.name)[1].lower()
             if file_extension not in ['.jpg', '.jpeg', '.png', '.tiff', '.tif']:
                 st.write("Unsupported file format. Please upload a JPEG, PNG, or TIFF image.")
-                return
             else:
                 # read img as bytes:
                 bytes_data = upload_img.getvalue()
@@ -89,20 +94,22 @@ class page2:
                 # save the img as png
                 with open("input.png", "wb") as f:
                     f.write(bytesio_object.getbuffer())
-                
+
                 # grayscale and resize to 640 * 640
                 self.__preprocess_img__("input.png")
 
                 # determines if image is brain scan
-                is_scan_model = YOLO(self.MODEL_is_scan)
+                is_scan_model = YOLO(self.model_is_scan)
                 scan_results = is_scan_model.predict(source='input.png', save=True)
-                print(scan_results[0].probs.top1)
-                print(scan_results[0].probs.top1conf.item())
-                if (scan_results[0].probs.top1 == 1) & (scan_results[0].probs.top1conf.item() > 0.8):
-                    is_tumor_model = YOLO(self.MODEL_is_tumor)
+                # print(scan_results[0].probs.top1)
+                # print(scan_results[0].probs.top1conf.item())
+                if ((scan_results[0].probs.top1 == 1) &
+                    (scan_results[0].probs.top1conf.item() > 0.8)):
+                    is_tumor_model = YOLO(self.model_is_tumor)
                     tumor_results = is_tumor_model.predict(source='input.png', save=True)
-                    if (tumor_results[0].probs.top1 == 1) & (tumor_results[0].probs.top1conf.item() > 0.7):
-                        locate_tumor_model = YOLO(self.MODEL_locate_tumor)
+                    if ((tumor_results[0].probs.top1 == 1) &
+                        (tumor_results[0].probs.top1conf.item() > 0.7)):
+                        locate_tumor_model = YOLO(self.model_locate_tumor)
                         location_results = locate_tumor_model.predict(source='input.png', save=True)
                         # run locate tumor model
                         result_dir = location_results[0].save_dir
@@ -110,15 +117,18 @@ class page2:
                         # st.write(img_path)
                         st.image(img_path)
                         st.write("Bad news, probably a tumor :(")
-                        return
                     else:
-                        st.write("Based on the current model, we don't believe there's a tumor in this brain scan")
-                        return
+                        no_tumor = "Based on the current model, \
+                                    we don't believe there's a tumor in this brain scan"
+                        st.write(no_tumor)
                 else:
-                    st.write("Unfortunately, this image is not recognized as a brain scan. Please double-check to ensure you've uploaded a suitable brain scan image")
-                    return
+                    not_brain_scan = "Unfortunately, \
+                                      this image is not recognized as a brain scan. \
+                                      Please double-check to ensure you've uploaded a \
+                                      suitable brain scan image"
+                    st.write(not_brain_scan)
 
 
 if __name__ == "__main__":
-    page_2 = page2()
+    page_2 = Page2()
     page_2.render_page2()
