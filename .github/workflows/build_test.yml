@@ -101,8 +101,8 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-path: data_515_brain_tumor_computer_vision
-          path-to-lcov: data_515_brain_tumor_computer_vision/coverage.lcov
+          # base-path: data_515_brain_tumor_computer_vision
+          path-to-lcov: coverage.lcov
           # The following two options are needed for "parallel"
           # runs - ie if you have a matrix of python versions.
           # This holds off on reporting code coverage to
