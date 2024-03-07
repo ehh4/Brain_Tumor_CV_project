@@ -4,7 +4,7 @@
 import random
 import time
 import streamlit as st
-from ui_demo.style import st_style
+from data_515_brain_tumor_computer_vision.ui_demo.style import CustomStyle
 
 
 class Page3:
@@ -29,6 +29,7 @@ class Page3:
 
     def render_page3(self) -> None:
         """ Renders chatbot interface. """
+        st_style = CustomStyle()
         st_style.config_page(page_title="ChatBot", page_icon="🤖")
         st_style.hide_header()
         st.title("Simple chat")

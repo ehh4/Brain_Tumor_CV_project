@@ -1,11 +1,12 @@
 # pylint: disable=invalid-name
 """ Brain Tumor Landing Page. """
 import streamlit as st
-from ui_demo.style import st_style
+from data_515_brain_tumor_computer_vision.ui_demo.style import CustomStyle
 
 
 def intro():
     """ Brain tumor background information. """
+    st_style = CustomStyle()
     st_style.config_page(page_title="Brain Tumor Entry Page", page_icon="🧠")
     st_style.hide_header()
     st.markdown("<h1 style='text-align: center;'>Brain Tumor Information</h1>",
@@ -35,8 +36,8 @@ def intro():
                     If you are diagnosed with a brain tumor, ask your provider where it is located in the brain to better prepare for possible symptoms and safety concerns.
                     </p>""",
                     unsafe_allow_html=True)
-
-    st.image('ui_demo/brain_img.png', caption='Brain Structure and their Functions' )
+    img_path = 'data_515_brain_tumor_computer_vision/ui_demo/brain_img.png'
+    st.image(img_path, caption='Brain Structure and their Functions' )
 
     st.markdown(
       """
