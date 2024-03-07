@@ -1,6 +1,7 @@
+# pylint: disable=invalid-name
 """ Brain Tumor Landing Page. """
 import streamlit as st
-from style import st_style
+from ui_demo.style import st_style
 
 
 def intro():
@@ -44,7 +45,6 @@ def intro():
       ##### [National Brain Tumor Society](https://braintumor.org/g)
       ##### [Managing Symptoms through Palliative Care](https://shorturl.at/eoJN4)
       ##### [National Brain Tumor Society's Symptom Tracker](https://shorturl.at/p2579)
-      ##### [American Society of Clinical Oncology's Cancer.Net Mobile App](https://shorturl.at/bBEO4)
       ##### [Seattle Children’s Brain Tumor Program](https://shorturl.at/klnC4)
       """
     )

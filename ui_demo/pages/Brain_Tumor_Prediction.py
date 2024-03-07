@@ -11,13 +11,11 @@ Users can upload a brain CT image and get a predicted tumor severity image back.
     render_page2: displays the brain tumor prediction page.
 """
 import os
-import sys
-sys.path.append('ui_demo')
 from io import BytesIO
-from style import st_style
 import cv2
 import streamlit as st
 from ultralytics import YOLO
+from ui_demo.style import st_style
 
 
 class Page2:

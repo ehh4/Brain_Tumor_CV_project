@@ -1,15 +1,20 @@
-import streamlit as st
+# pylint: disable=invalid-name
+# pylint: disable=import-error
+""" Chatbot page. """
 import random
 import time
-from style import st_style
+import streamlit as st
+from ui_demo.style import st_style
 
 
-class page3:
+class Page3:
+    """ Chatbot page class. """
     def __init__(self) -> None:
         pass
 
     # Streamed response emulator
     def response_generator(self) -> None:
+        """ Chatbot response generator. Randomly gives response. """
         response = random.choice(
             [
                 "Hello there! How can I assist you today?",
@@ -21,8 +26,9 @@ class page3:
             yield word + " "
             time.sleep(0.05)
 
-    
-    def renderPage3(self) -> None:
+
+    def render_page3(self) -> None:
+        """ Renders chatbot interface. """
         st_style.config_page(page_title="ChatBot", page_icon="🤖")
         st_style.hide_header()
         st.title("Simple chat")
@@ -49,8 +55,8 @@ class page3:
                 response = st.write_stream(self.response_generator())
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
-                
 
-if __name__ == "__main__":  
-    page_3 = page3()
-    page_3.renderPage3()
+
+if __name__ == "__main__":
+    page_3 = Page3()
+    page_3.render_page3()
