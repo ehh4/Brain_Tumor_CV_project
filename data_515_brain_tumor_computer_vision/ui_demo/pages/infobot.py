@@ -1,12 +1,12 @@
 # pylint: disable=invalid-name
 # pylint: disable=import-error
-""" Chatbot page. """
+""" Infobot page. """
 import streamlit as st
 from ui_demo.style import CustomStyle
 
 
-class Page3:
-    """ Chatbot page class. """
+class InfobotPage:
+    """ Infobot page class. """
     def __init__(self) -> None:
         pass
 
@@ -59,10 +59,10 @@ class Page3:
         return response
 
 
-    def render_page3(self) -> None:
-        """ Renders chatbot interface. """
+    def render_infobot_page(self) -> None:
+        """ Renders Infobot interface. """
         st_style = CustomStyle()
-        st_style.config_page(page_title="ChatBot", page_icon="🤖")
+        st_style.config_page(page_title="Infobot", page_icon="🤖")
         st_style.hide_header()
         st.markdown("<h1 style='text-align: center;'>Brain Tumor Bot</h1>",
                     unsafe_allow_html=True)
@@ -113,5 +113,5 @@ class Page3:
 
 
 if __name__ == "__main__":
-    page_3 = Page3()
-    page_3.render_page3()
+    infobot_page = InfobotPage()
+    infobot_page.render_infobot_page()

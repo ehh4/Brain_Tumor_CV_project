@@ -5,7 +5,7 @@ import streamlit as st
 from ui_demo.style import CustomStyle
 
 
-def intro():
+def landing_page():
     """ Brain tumor background information. """
     st_style = CustomStyle()
     st_style.config_page(page_title="Brain Tumor Entry Page", page_icon="🧠")
@@ -52,4 +52,4 @@ def intro():
     )
 
 if __name__ == "__main__":
-    intro()
+    landing_page()

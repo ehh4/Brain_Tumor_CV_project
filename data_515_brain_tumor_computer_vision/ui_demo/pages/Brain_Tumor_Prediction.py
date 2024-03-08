@@ -3,12 +3,13 @@
 # pylint: disable=too-many-locals
 # pylint: disable=invalid-name
 # pylint: disable=import-error
+
 """
-Brain Tumor Prediction page. 
+Brain Tumor Prediction page.
 Users can upload a brain CT image and get a predicted tumor severity image back.
     getPredictedImg: result_dir is where the predicted img is saved; returns the full img_path.
     preprocessImg: returns the grayscaled img of size 640 * 640.
-    render_page2: displays the brain tumor prediction page.
+    render_prediction_page: displays the brain tumor prediction page.
 """
 import os
 from io import BytesIO
@@ -18,7 +19,7 @@ from ultralytics import YOLO
 from ui_demo.style import CustomStyle
 
 
-class Page2:
+class PredictionPage:
     """ Brain Prediction Page Class. """
     def __init__(self) -> None:
         self.mod_loc_t = 'models/locate_tumor/weights/best.pt'
@@ -86,7 +87,7 @@ class Page2:
         st.write("Bad news, probably a tumor :(")
         return
 
-    def render_page2(self) -> None:
+    def render_prediction_page(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
         st_style = CustomStyle()
         st_style.config_page(page_title="Brain Tumor Prediction", page_icon="✨")
@@ -148,5 +149,5 @@ class Page2:
 
 
 if __name__ == "__main__":
-    page_2 = Page2()
-    page_2.render_page2()
+    prediction_page = PredictionPage()
+    prediction_page.render_prediction_page()
