@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use
+
 # pylint: disable=import-error
 """ Infobot page. """
 import streamlit as st

@@ -3,7 +3,7 @@
 # pylint: disable=too-many-locals
 # pylint: disable=invalid-name
 # pylint: disable=import-error
-# pylint: disable=no-self-use
+
 """
 Brain Tumor Prediction page.
 Users can upload a brain CT image and get a predicted tumor severity image back.
