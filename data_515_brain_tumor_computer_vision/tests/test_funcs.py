@@ -1,8 +1,8 @@
 """test_funcs.py"""
 import unittest
 import cv2
-import ui_demo.pages.brain_tumor_prediction as bp
-import ui_demo.pages.infobot as ib
+import ui_demo.pages.Brain_Tumor_Prediction as bp
+import ui_demo.pages.Infobot as ib
 
 
 class TestFunctions(unittest.TestCase):

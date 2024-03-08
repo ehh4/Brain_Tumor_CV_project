@@ -1,4 +1,4 @@
-
+# pylint: disable=invalid-name
 # pylint: disable=import-error
 """ Infobot page. """
 import streamlit as st
