@@ -62,9 +62,6 @@ class PredictionPage:
             raise TypeError("Please upload your file in a valid filetype. \
                 Currently accepted filetypes: .jpg, .jpeg, \
                 .png, .tiff, .tif")
-            #st.error("Please upload your file in a valid filetype. \
-                #Currently accepted filetypes: .jpg, .jpeg, \
-                #.png, .tiff, .tif", icon="🚨")
         return True
 
     def __classification_model__(self, model, image):
@@ -125,7 +122,8 @@ class PredictionPage:
                 self.__preprocess_img__("input.png")
 
                 # determines if image is brain scan
-                is_scan_pred, confidence = self.__classification_model__(self.mod_is_scan, "input.png")
+                is_scan_pred, confidence = self.__classification_model__(
+                    self.mod_is_scan, "input.png")
                 if is_scan_pred == 1 and confidence > 0.95:
                     is_tumor_pred, confidence = self.__classification_model__(
                         self.mod_is_tumor, "input.png")
