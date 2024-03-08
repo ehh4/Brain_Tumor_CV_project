@@ -59,7 +59,12 @@ class PredictionPage:
     def __is_correct_filetype__(self, image):
         file_extension = os.path.splitext(image.name)[1].lower()
         if file_extension not in ['.jpg', '.jpeg', '.png', '.tiff', '.tif']:
-            return False
+            raise TypeError("Please upload your file in a valid filetype. \
+                Currently accepted filetypes: .jpg, .jpeg, \
+                .png, .tiff, .tif")
+            #st.error("Please upload your file in a valid filetype. \
+                #Currently accepted filetypes: .jpg, .jpeg, \
+                #.png, .tiff, .tif", icon="🚨")
         return True
 
     def __classification_model__(self, model, image):
@@ -76,16 +81,10 @@ class PredictionPage:
         locate_tumor_model = YOLO(model)
         location_results = locate_tumor_model(source=image, save=True)
         boxes = location_results[0].boxes
-        if boxes.data.shape[0] == 0:
-            st.write("After review, no tumor identified")
-            return
-        # run locate tumor model
         result_dir = location_results[0].save_dir
         img_path = self.__get_predicted_img__(result_dir)
-        # st.write(img_path)
-        st.image(img_path)
-        st.write("Bad news, probably a tumor :(")
-        return
+        return boxes, img_path
+
 
     def render_prediction_page(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
@@ -110,40 +109,41 @@ class PredictionPage:
                             Please upload your brain CT image in the file uploader below by clicking on the "Browse Files" button. Thank you for using our tool!
                             </p>""",
                             unsafe_allow_html=True)
-
         upload_img = st.file_uploader("Choose an image")
         # ADD IN code to reject non-images
         if upload_img is not None:
-            if not self.__is_correct_filetype__(upload_img):
-                st.error("Please upload your file in a valid filetype. \
-                         Currently accepted filetypes: .jpg, .jpeg, \
-                          .png, .tiff, .tif", icon="🚨")
+            if self.__is_correct_filetype__(upload_img):
+                # read img as bytes:
+                bytes_data = upload_img.getvalue()
+                bytesio_object = BytesIO(bytes_data)
 
-            # read img as bytes:
-            bytes_data = upload_img.getvalue()
-            bytesio_object = BytesIO(bytes_data)
+                # save the img as png
+                with open("input.png", "wb") as f:
+                    f.write(bytesio_object.getbuffer())
 
-            # save the img as png
-            with open("input.png", "wb") as f:
-                f.write(bytesio_object.getbuffer())
+                # grayscale and resize to 640 * 640
+                self.__preprocess_img__("input.png")
 
-            # grayscale and resize to 640 * 640
-            self.__preprocess_img__("input.png")
-
-            # determines if image is brain scan
-            is_scan_pred, confidence = self.__classification_model__(self.mod_is_scan, "input.png")
-            if is_scan_pred == 1 and confidence > 0.95:
-                is_tumor_pred, confidence = self.__classification_model__(
-                    self.mod_is_tumor, "input.png")
-                if is_tumor_pred == 1 and confidence > 0.95:
-                    self.__segmentation_model__(self.mod_loc_t, "input.png")
+                # determines if image is brain scan
+                is_scan_pred, confidence = self.__classification_model__(self.mod_is_scan, "input.png")
+                if is_scan_pred == 1 and confidence > 0.95:
+                    is_tumor_pred, confidence = self.__classification_model__(
+                        self.mod_is_tumor, "input.png")
+                    if is_tumor_pred == 1 and confidence > 0.95:
+                        boxes, img_path = self.__segmentation_model__(self.mod_loc_t, "input.png")
+                        if boxes.data.shape[0] == 0:
+                            st.write("After review, no tumor identified")
+                        else:
+                            st.image(img_path)
+                            st.write("Bad news, probably a tumor :(")
+                    else:
+                        st.write(f"Based on our current model, we believe there \
+                                is no tumor found with a {confidence} level")
                 else:
-                    st.write(f"Based on our current model, we believe there \
-                             is no tumor found with a {confidence} level")
-            else:
-                st.write("Unfortunately, this image is not recognized as \
-                         a brain scan. Please double-check to ensure you've \
-                         uploaded a suitable brain scan image")
+                    st.write("Unfortunately, this image is not recognized as \
+                            a brain scan. Please double-check to ensure you've \
+                            uploaded a suitable brain scan image")
+
 
 
 
