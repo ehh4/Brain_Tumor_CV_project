@@ -55,6 +55,36 @@ class Page2:
         img = cv2.resize(img, (640, 640), interpolation = cv2.INTER_AREA)
         cv2.imwrite("input.png", img)
 
+    def __is_correct_filetype__(self, image):
+        file_extension = os.path.splitext(image.name)[1].lower()
+        if file_extension not in ['.jpg', '.jpeg', '.png', '.tiff', '.tif']:
+            return False
+        return True
+
+    def __classification_model__(self, model, image):
+        """Runs model, returns prediction and confidence
+        1 means yes """
+        # determines if image is brain scan
+        use_model = YOLO(model)
+        scan_results = use_model.predict(source=image, save=True)
+        prediction = scan_results[0].probs.top1
+        confidence = scan_results[0].probs.top1conf.item()
+        return prediction, confidence
+
+    def __segmentation_model__(self, model, image):
+        locate_tumor_model = YOLO(model)
+        location_results = locate_tumor_model(source=image, save=True)
+        boxes = location_results[0].boxes
+        if boxes.data.shape[0] == 0:
+            st.write("After review, no tumor identified")
+            return
+        # run locate tumor model
+        result_dir = location_results[0].save_dir
+        img_path = self.__get_predicted_img__(result_dir)
+        # st.write(img_path)
+        st.image(img_path)
+        st.write("Bad news, probably a tumor :(")
+        return
 
     def render_page2(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
@@ -83,50 +113,38 @@ class Page2:
         upload_img = st.file_uploader("Choose an image")
         # ADD IN code to reject non-images
         if upload_img is not None:
-            file_extension = os.path.splitext(upload_img.name)[1].lower()
-            if file_extension not in ['.jpg', '.jpeg', '.png', '.tiff', '.tif']:
-                st.write("Unsupported file format. Please upload a JPEG, PNG, or TIFF image.")
-            else:
-                # read img as bytes:
-                bytes_data = upload_img.getvalue()
-                bytesio_object = BytesIO(bytes_data)
+            if not self.__is_correct_filetype__(upload_img):
+                st.error("Please upload your file in a valid filetype. \
+                         Currently accepted filetypes: .jpg, .jpeg, \
+                          .png, .tiff, .tif", icon="🚨")
 
-                # save the img as png
-                with open("input.png", "wb") as f:
-                    f.write(bytesio_object.getbuffer())
+            # read img as bytes:
+            bytes_data = upload_img.getvalue()
+            bytesio_object = BytesIO(bytes_data)
 
-                # grayscale and resize to 640 * 640
-                self.__preprocess_img__("input.png")
+            # save the img as png
+            with open("input.png", "wb") as f:
+                f.write(bytesio_object.getbuffer())
 
-                # determines if image is brain scan
-                is_scan_model = YOLO(self.mod_is_scan)
-                scan_results = is_scan_model.predict(source='input.png', save=True)
-                # print(scan_results[0].probs.top1)
-                # print(scan_results[0].probs.top1conf.item())
-                if ((scan_results[0].probs.top1 == 1) &
-                    (scan_results[0].probs.top1conf.item() > 0.8)):
-                    is_tumor_model = YOLO(self.mod_is_tumor)
-                    tumor_results = is_tumor_model.predict(source='input.png', save=True)
-                    if ((tumor_results[0].probs.top1 == 1) &
-                        (tumor_results[0].probs.top1conf.item() > 0.7)):
-                        locate_tumor_model = YOLO(self.mod_loc_t)
-                        location_results = locate_tumor_model.predict(source='input.png', save=True)
-                        # run locate tumor model
-                        result_dir = location_results[0].save_dir
-                        img_path = self.__get_predicted_img__(result_dir)
-                        # st.write(img_path)
-                        st.image(img_path)
-                        st.write("Bad news, probably a tumor :(")
-                    else:
-                        no_tumor = "Based on the current model, \
-                                    we don't believe there's a tumor in this brain scan"
-                        st.write(no_tumor)
+            # grayscale and resize to 640 * 640
+            self.__preprocess_img__("input.png")
+
+            # determines if image is brain scan
+            is_scan_pred, confidence = self.__classification_model__(self.mod_is_scan, "input.png")
+            if is_scan_pred == 1 and confidence > 0.95:
+                is_tumor_pred, confidence = self.__classification_model__(
+                    self.mod_is_tumor, "input.png")
+                if is_tumor_pred == 1 and confidence > 0.95:
+                    self.__segmentation_model__(self.mod_loc_t, "input.png")
                 else:
-                    not_brain_scan = "Unfortunately, \
-                                      this image is not recognized as a brain scan. \
-                                      Please double-check to ensure you've uploaded a \
-                                      suitable brain scan image"
-                    st.write(not_brain_scan)
+                    st.write(f"Based on our current model, we believe there \
+                             is no tumor found with a {confidence} level")
+            else:
+                st.write("Unfortunately, this image is not recognized as \
+                         a brain scan. Please double-check to ensure you've \
+                         uploaded a suitable brain scan image")
+
+
 
 
 if __name__ == "__main__":
