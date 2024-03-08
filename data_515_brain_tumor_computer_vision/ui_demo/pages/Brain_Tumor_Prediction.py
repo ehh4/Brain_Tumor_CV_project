@@ -15,15 +15,15 @@ from io import BytesIO
 import cv2
 import streamlit as st
 from ultralytics import YOLO
-from ui_demo.style import st_style
+from ui_demo.style import CustomStyle
 
 
 class Page2:
     """ Brain Prediction Page Class. """
     def __init__(self) -> None:
-        self.model_locate_tumor = 'models/locate_tumor/weights/best.pt'
-        self.model_is_scan = 'models/is_scan/weights/best.pt'
-        self.model_is_tumor = 'models/is_tumor/weights/best.pt'
+        self.mod_loc_t = 'models/locate_tumor/weights/best.pt'
+        self.mod_is_scan = 'models/is_scan/weights/best.pt'
+        self.mod_is_tumor = 'models/is_tumor/weights/best.pt'
 
 
     def __get_predicted_img__(self, result_dir) -> str:
@@ -58,8 +58,10 @@ class Page2:
 
     def render_page2(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
+        st_style = CustomStyle()
         st_style.config_page(page_title="Brain Tumor Prediction", page_icon="✨")
-        st.title("Brain Tumor Prediction Tool")
+        st.markdown("<h1 style='text-align: center;'>Brain Tumor Information</h1>",
+                    unsafe_allow_html=True)
         st_style.hide_header()
         st.markdown("""<p style='font-size: 20px;'>
                             <b>⚠️ Important Reminder: Medical Prediction Tool</b> <br>
@@ -97,17 +99,17 @@ class Page2:
                 self.__preprocess_img__("input.png")
 
                 # determines if image is brain scan
-                is_scan_model = YOLO(self.model_is_scan)
+                is_scan_model = YOLO(self.mod_is_scan)
                 scan_results = is_scan_model.predict(source='input.png', save=True)
                 # print(scan_results[0].probs.top1)
                 # print(scan_results[0].probs.top1conf.item())
                 if ((scan_results[0].probs.top1 == 1) &
                     (scan_results[0].probs.top1conf.item() > 0.8)):
-                    is_tumor_model = YOLO(self.model_is_tumor)
+                    is_tumor_model = YOLO(self.mod_is_tumor)
                     tumor_results = is_tumor_model.predict(source='input.png', save=True)
                     if ((tumor_results[0].probs.top1 == 1) &
                         (tumor_results[0].probs.top1conf.item() > 0.7)):
-                        locate_tumor_model = YOLO(self.model_locate_tumor)
+                        locate_tumor_model = YOLO(self.mod_loc_t)
                         location_results = locate_tumor_model.predict(source='input.png', save=True)
                         # run locate tumor model
                         result_dir = location_results[0].save_dir

@@ -87,11 +87,12 @@ jobs:
       # Next step: run pylint. Anything less than 10/10 will fail.
       - name: Lint with pylint
         run: |
-          pylint ui_demo/**/*.py
+          pylint data_515_brain_tumor_computer_vision/ui_demo/**/*.py
 
       # Next step: run the unit tests with code coverage. ##CHANGE FOR MAIN FILE
       - name: Unit tests
         run: |
+          cd data_515_brain_tumor_computer_vision
           coverage run -m unittest discover
           coverage report
           coverage lcov
@@ -101,8 +102,8 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-path: ui_demo
-          path-to-lcov: ui_demo/coverage.lcov
+          base-path: data_515_brain_tumor_computer_vision
+          path-to-lcov: data_515_brain_tumor_computer_vision/coverage.lcov
           # The following two options are needed for "parallel"
           # runs - ie if you have a matrix of python versions.
           # This holds off on reporting code coverage to

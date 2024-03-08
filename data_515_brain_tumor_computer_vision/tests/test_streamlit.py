@@ -16,4 +16,10 @@ class TestStreamlit(unittest.TestCase):
         """ Test brain prediction page displays relevant info """
         at = AppTest.from_file("ui_demo/pages/Brain_Tumor_Prediction.py").run()
         # st.title and st.markdown
-        assert len(at.markdown) == 2
+        assert len(at.markdown) == 3
+
+
+    def test_bot(self):
+        """ Test bot interface"""
+        at = AppTest.from_file("ui_demo/pages/Chatbot.py").run()
+        assert len(at.button) == 4
