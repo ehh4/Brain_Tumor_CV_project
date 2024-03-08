@@ -2,7 +2,7 @@
 import unittest
 import cv2
 import ui_demo.pages.Brain_Tumor_Prediction as bp
-import ui_demo.pages.Infobot as ib
+import ui_demo.pages.infobot as ib
 
 
 class TestFunctions(unittest.TestCase):

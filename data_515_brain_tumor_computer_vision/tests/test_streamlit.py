@@ -21,5 +21,5 @@ class TestStreamlit(unittest.TestCase):
 
     def test_bot(self):
         """ Test bot interface"""
-        at = AppTest.from_file("ui_demo/pages/Infobot.py").run()
+        at = AppTest.from_file("ui_demo/pages/infobot.py").run()
         assert len(at.button) == 4
