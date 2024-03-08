@@ -1,8 +1,10 @@
 """test_funcs.py"""
 import unittest
+from unittest.mock import MagicMock, patch
 import cv2
 import ui_demo.pages.Brain_Tumor_Prediction as bp
 import ui_demo.pages.infobot as ib
+import ui_demo.Brain_Tumor_Information as bi
 
 
 class TestFunctions(unittest.TestCase):
@@ -32,6 +34,12 @@ class TestFunctions(unittest.TestCase):
         test = bp.PredictionPage()
         with self.assertRaises(ValueError):
             test.__get_predicted_img__('/')
+
+    def test_get_predicted_img_edge_three(self):
+        """ Edge three: The directory is not a string type. """
+        test = bp.PredictionPage()
+        with self.assertRaises(TypeError):
+            test.__get_predicted_img__(89)
 
 
     def test_preprocess_img_smoke(self):
@@ -102,6 +110,38 @@ class TestFunctions(unittest.TestCase):
         input = "Brain no braining"
         with self.assertRaises(ValueError):
             res = test.response_generator(input)
+
+    def test_render_prediction_page(self):
+        "Test render prediction page function smoke test"
+        test = bp.PredictionPage()
+        res = test.render_prediction_page()
+        self.assertEqual('smoke'.upper(), 'SMOKE')
+
+    def test_ladning_page(self):
+        "Test landing page function smoke test"
+        res = bi.landing_page()
+        self.assertEqual('smoke'.upper(), 'SMOKE')
+
+
+    @patch('ui_demo.pages.infobot.st')
+    def test_render_infobot_page(self, mock_st):
+        # Mock the streamlit app
+        mock_st.session_state.messages = []
+        mock_st.markdown = MagicMock()
+        mock_st.button = MagicMock(return_value=True)
+        mock_st.columns = MagicMock(return_value=(MagicMock(), MagicMock(),
+                                                  MagicMock(), MagicMock()))
+
+        infobot_page = ib.InfobotPage()
+        infobot_page.render_infobot_page()
+
+        # Use assert to throw exceptions
+        mock_st.button.assert_any_call("Learn about Brain Cancer")
+        mock_st.button.assert_any_call("Get Brain Tumor Prediction")
+        mock_st.button.assert_any_call("Get Diagnosis Next Steps")
+        mock_st.button.assert_any_call("Get Additional Help")
+
+
 
 if __name__ == '__main__':
     unittest.main()

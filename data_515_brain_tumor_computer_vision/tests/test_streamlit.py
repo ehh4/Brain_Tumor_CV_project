@@ -2,6 +2,8 @@
 import unittest
 import streamlit as st
 from streamlit.testing.v1 import AppTest
+import cv2
+
 
 
 class TestStreamlit(unittest.TestCase):
@@ -23,3 +25,10 @@ class TestStreamlit(unittest.TestCase):
         """ Test bot interface"""
         at = AppTest.from_file("ui_demo/pages/infobot.py").run()
         assert len(at.button) == 4
+
+    def test_render_infobot(self):
+        """ Test bot interface"""
+        at = AppTest.from_file("ui_demo/pages/infobot.py").run()
+        assert len(at.markdown) == 2
+
+
