@@ -6,8 +6,9 @@
 
 """
 Brain Tumor Prediction page.
-Users can upload a brain CT image and get a predicted tumor severity image back.
-    __get_predicted_img__: ~~ result_dir is where the predicted img is saved; returns the full img_path.
+Users can upload a brain CT scan and get a predicted tumor severity image back.
+    __get_predicted_img__: ~~ result_dir is where the predicted img is saved;
+                            returns the full img_path.
     __preprocess_img__: ~~ returns the grayscaled img of size 640 * 640.
     __is_correct_filetype__: ~~~
     __classification_model__: ~~~
@@ -36,7 +37,6 @@ class PredictionPage:
         self.mod_is_tumor = 'models/is_tumor/weights/best.pt'
         self.mod_loc_t = 'models/locate_tumor/weights/best.pt'
 
-
     def __get_predicted_img__(self, result_dir) -> str:
         """ 
         Returns predicted img. 
@@ -59,7 +59,6 @@ class PredictionPage:
         for f in filenames:
             img_path += str(f)
         return img_path
-
 
     def __preprocess_img__(self, input_image) -> None:
         """ 
@@ -128,7 +127,6 @@ class PredictionPage:
         img_path = self.__get_predicted_img__(result_dir)
         return boxes, img_path
 
-
     def render_prediction_page(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
         st_style = CustomStyle()
@@ -191,9 +189,6 @@ class PredictionPage:
                     st.write("Unfortunately, this image is not recognized as \
                             a brain scan. Please double-check to ensure you've \
                             uploaded a suitable brain scan image")
-
-
-
 
 
 if __name__ == "__main__":
