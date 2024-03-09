@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 3
+names: ['tumor_good_chance', 'tumor_less_chance', 'tumor_moderate_chance']
+
+roboflow:
+  workspace: mycollege
+  project: tumor-detection-2
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/mycollege/tumor-detection-2/dataset/3
