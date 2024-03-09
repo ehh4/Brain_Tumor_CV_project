@@ -9,5 +9,7 @@ pylint
 scipy
 seaborn
 torch
+torchvision
 ultralytics
 streamlit
+dill
