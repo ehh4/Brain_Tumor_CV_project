@@ -1,15 +1,26 @@
 # pylint: disable=no-member
+# Module 'cv2' has no 'imread' member (no-member)
+# opernCV and pylint are incompatible
+
 # pylint: disable=too-few-public-methods
-# pylint: disable=too-many-locals
+# Too few public methods (1/2) (too-few-public-methods)
+# All the functions written (except for render_predict_page) are internal functions
+# for organization and streamlit purposes, they are just not intended to be public.
+
 # pylint: disable=invalid-name
+# Module name "Brain_Tumor_Prediction" doesn't conform to snake_case naming style (invalid-name)
+# but streamlit uses the name of the file to display on app
+
 # pylint: disable=import-error
+# Unable to import 'ui_demo.style' (import-error)
+# correct import address but not recognized by pylint
 
 """
 Brain Tumor Prediction page.
 Users can upload a brain CT scan and get a predicted tumor severity image back.
-    __get_predicted_img__: ~~ result_dir is where the predicted img is saved;
-                            returns the full img_path.
-    __preprocess_img__: ~~ returns the grayscaled img of size 640 * 640.
+    __get_predicted_img__: result_dir is where the predicted img is saved;
+                           returns the full img_path.
+    __preprocess_img__: returns the grayscaled img of size 640 * 640.
     __is_correct_filetype__: ~~~
     __classification_model__: ~~~
     __segmentation_model__: ~~~
@@ -27,9 +38,9 @@ class PredictionPage:
     """ Brain Prediction Page Class. """
     def __init__(self) -> None:
         """Holds the models used:
-        mod_is_scan: Classification model that determines if the 
+        mod_is_scan: Classification model that determines if the
                     uploaded image is an acceptable brain scan [0: no, 1: yes]
-        mod_is_tumor: Classification model that determines if the 
+        mod_is_tumor: Classification model that determines if the
                     uploaded brain scan contains a tumor. [0: no, 1: yes]
         mod_loc_t: Segmentation model that locates the tumor and highlights it
         """
@@ -37,13 +48,21 @@ class PredictionPage:
         self.mod_is_tumor = 'models/is_tumor/weights/best.pt'
         self.mod_loc_t = 'models/locate_tumor/weights/best.pt'
 
+
     def __get_predicted_img__(self, result_dir) -> str:
         """ 
-        Returns predicted img. 
+        Returns predicted img
         Parameters:
-            - result_dir: ~~~~~
+            - result_dir: the directory YOLO model save the predicted img in
         Returns: 
-            - img_path: ~~~~
+            - img_path: full predicted img path
+        Exceptions:
+            - TypeError("result_dir should be a string!"): if result_dir the wrong type
+            - ValueError("[Wrong directory] The directory doesn't exist!"): 
+                if result_dir is not a valid dir
+            - ValueError("[Wrong directory] The directory contains more than
+                one file. This is the predicted img directory!"): 
+                if result_dir is not the predicted img dir
         """
         if not isinstance(result_dir, str):
             raise TypeError("result_dir should be a string!")
@@ -60,11 +79,15 @@ class PredictionPage:
             img_path += str(f)
         return img_path
 
+
     def __preprocess_img__(self, input_image) -> None:
         """ 
         Resizes img to 640 * 640 and grayscales it, then saves to the target directory
         Parameters: 
-            - input_image: ~~~~
+            - input_image: user uploaded img path
+        Exceptions:
+            - TypeError("[Wrong input type] The input is not a string!"): if input is the wrong type
+            - ValueError("[Wrong image path] The inputed image is invalid!"): if img_path is invalid
         """
         if not isinstance(input_image, str):
             raise TypeError("[Wrong input type] The input is not a string!")
@@ -74,6 +97,7 @@ class PredictionPage:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (640, 640), interpolation = cv2.INTER_AREA)
         cv2.imwrite("input.png", img)
+
 
     def __is_correct_filetype__(self, file):
         """
@@ -92,6 +116,7 @@ class PredictionPage:
                 .png, .tiff, .tif")
         return True
 
+
     def __classification_model__(self, model, image):
         """
         Runs an inputted classification model
@@ -108,6 +133,7 @@ class PredictionPage:
         prediction = scan_results[0].probs.top1
         confidence = scan_results[0].probs.top1conf.item()
         return prediction, confidence
+
 
     def __segmentation_model__(self, model, image):
         """
@@ -126,6 +152,7 @@ class PredictionPage:
         result_dir = location_results[0].save_dir
         img_path = self.__get_predicted_img__(result_dir)
         return boxes, img_path
+
 
     def render_prediction_page(self) -> None:
         """ Renders Brain Tumor Prediction page in streamlit. """
