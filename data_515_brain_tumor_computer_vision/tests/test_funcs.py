@@ -117,7 +117,7 @@ class TestFunctions(unittest.TestCase):
         res = test.render_prediction_page()
         self.assertEqual('smoke'.upper(), 'SMOKE')
 
-    def test_ladning_page(self):
+    def test_landing_page(self):
         "Test landing page function smoke test"
         res = bi.landing_page()
         self.assertEqual('smoke'.upper(), 'SMOKE')
