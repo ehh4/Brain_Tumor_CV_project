@@ -1,4 +1,11 @@
-"""test_funcs.py"""
+# pylint: disable=import-error
+# Unable to import 'ui_demo.pages.Brain_Tumor_Prediction' (import-error)
+# correct import address but not recognized by pylint
+
+# pylint: disable=no-member
+# Module 'cv2' has no 'imread' member (no-member)
+# opernCV and pylint are incompatible
+""" test_funcs.py includes all helper function testing """
 import unittest
 from unittest.mock import MagicMock, patch
 import cv2
@@ -8,6 +15,9 @@ import ui_demo.Brain_Tumor_Information as bi
 
 
 class TestFunctions(unittest.TestCase):
+    """
+    All unit test for the helper functions used in the streamlit web app
+    """
     def test_get_predicted_img_smoke(self):
         """ __get_predicted_img__ smoke test. """
         test = bp.PredictionPage()
@@ -55,10 +65,10 @@ class TestFunctions(unittest.TestCase):
         test.__preprocess_img__("tests/input_raw.jpg")
         img = cv2.imread("input.png")
         # Get the shape of the image
-        height, width, channels = img.shape if len(img.shape) == 3 else (img.shape[0], img.shape[1], 1)
+        h, w, _ = img.shape if len(img.shape) == 3 else (img.shape[0], img.shape[1], 1)
         # Check if the image is grayscale (only compares height and width)
         # also that the img height and width are both 640
-        is_grayscale = height == width == 640
+        is_grayscale = h == w == 640
         self.assertTrue(is_grayscale)
 
 
@@ -89,8 +99,8 @@ class TestFunctions(unittest.TestCase):
         test = ib.InfobotPage()
         valid_button_vals = ["Learn about Brain Cancer", "Get Brain Tumor Prediction",
         "Get Diagnosis Next Steps", "Get Additional Help"]
-        for input in valid_button_vals:
-            res = test.response_generator(input)
+        for button_val in valid_button_vals:
+            res = test.response_generator(button_val)
             if res:
                 res = None
             self.assertIsNone(res)
@@ -99,32 +109,35 @@ class TestFunctions(unittest.TestCase):
     def test_chat_response_generator_wrong_input_type(self):
         """ response_generator wrong type of input. """
         test = ib.InfobotPage()
-        input = 390
+        res_input = 390
         with self.assertRaises(TypeError):
-            res = test.response_generator(input)
+            test.response_generator(res_input)
 
 
     def test_chat_response_generator_invalid_input(self):
         """ response_generator invalid input. """
         test = ib.InfobotPage()
-        input = "Brain no braining"
+        res_input = "Brain not braining"
         with self.assertRaises(ValueError):
-            res = test.response_generator(input)
+            test.response_generator(res_input)
+
 
     def test_render_prediction_page(self):
-        "Test render prediction page function smoke test"
+        """ Test render prediction page function smoke test. """
         test = bp.PredictionPage()
-        res = test.render_prediction_page()
+        test.render_prediction_page()
         self.assertEqual('smoke'.upper(), 'SMOKE')
 
+
     def test_landing_page(self):
-        "Test landing page function smoke test"
-        res = bi.landing_page()
+        """ Test landing page function smoke test. """
+        bi.landing_page()
         self.assertEqual('smoke'.upper(), 'SMOKE')
 
 
     @patch('ui_demo.pages.infobot.st')
     def test_render_infobot_page(self, mock_st):
+        """ infobot mock test. """
         # Mock the streamlit app
         mock_st.session_state.messages = []
         mock_st.markdown = MagicMock()
@@ -140,7 +153,6 @@ class TestFunctions(unittest.TestCase):
         mock_st.button.assert_any_call("Get Brain Tumor Prediction")
         mock_st.button.assert_any_call("Get Diagnosis Next Steps")
         mock_st.button.assert_any_call("Get Additional Help")
-
 
 
 if __name__ == '__main__':
