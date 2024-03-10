@@ -11,46 +11,96 @@ Data Sets
 
 
 
-Software Dependencies
-====================
-Python version?
-
-Explain how to use requirments.txt
-
-
---------------------
-
-Folders
+Folder / Structure
 ====================
 
+        data_515_brain_tumor_computer_vision/
+        |-README.md
+        |- data_515_brain_tumor_computer_vision/
+            |-ui_demo/
+                |- ...
+            |-model_training/
+                |- ...
+            |- tests/
+                |- ...
+        |- examples
+            |-user_guide
+        |- docs/
+            |-Component_Specification.md
+            |-DATA 515 Technology Review.pptx
+            |-Function_Specification.md
+            |-Milestones.md
+            |-diagram.png
+            |-users_usecase.md
+            |-DATA 515 Technology Review.pdf
+        |-pyproject.toml
+        |-requirements.txt
+        |-environment.yml
+
+
+
+------------------
+
+Software Dependencies and Installation
+====================
+Python 3 is required
+
+All other dependencies are in requirments.txt file
+
+Installation steps:
+
+1. Clone the project repo:
+
+        git clone https://github.com/tchiang0/data_515_brain_tumor_computer_vision.git
+
+2. Install pip if not already installed:
+
+        python -n pip install
+
+3. Run requirements.txt to ensure all dependencies exist:
+
+        pip install -r requirements.txt
 
 --------------------
 Running the tool
 ====================
-The tool is run using a shell script in the data_515_brain_tumor_computer_vision folder.
+The tool is run by opening a terminal in the data_515_brain_tumor_computer_vision folder and running the following command.
 
 Command to run model:
 
     python -m streamlit run ui_demo/Brain_Tumor_Information.py
 
-This will provide a url link that can you click to access our streamlit site.
+This will provide a url link that you can click to access our streamlit site in your browser.
 
+See the user_guide.pdf in the examples folder for more information on how to use the tool.
 
 --------------------
 
 
 
-Use case
+Use cases
 ====================
+Doctors:
+
+Patients:
+
+
+Researchers: Adjust models ....
+
+
+----------------------
+
+
+Models
+======================
 
 
 
-
-
-
+----------------------
 
 Appendix
 ====================
 INCLUDE AND TEST MODEL in .py file?????
 IF LEAVE OUT, JUSTIFY
-====================
+
+Disclaimer: This tool was not created by medical professionals and is not intended to be used in place of medical practices. This is merely a tool to help researchers, patients, and doctors see how computer vision could be used for brain tumor detection and to provide resources on brain tumors.
