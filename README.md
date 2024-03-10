@@ -3,12 +3,22 @@
 
 Brain Tumor Detection Tool Using Computer Vision Techniques
 ====================
-As the field of deep learning continues to grow, we are interested in its application within healthcare, particularly in the realm of brain tumor detection and classification based on brain CT scans. Our project objective is to develop a user-friendly website catering to a diverse audience, including researchers, patients, doctors, and interested users in general. The platform's primary functionality involves allowing users to upload brain CT scans and receive predictions regarding the presence of a tumor and its severity. Other features of this website includes a background introduction of brain tumors, its symptoms and signs, and resources to further explore the topics.
-As a stretch goal, we envision incorporating an interactive chatbot into the website. This chatbot would serve as a guide, directing users to relevant pages and, ideally, facilitating the upload of images for predictions within the chat interface. This feature not only enhances user engagement but also provides an intuitive and seamless experience for individuals seeking information or diagnostic insights.
+As the field of deep learning continues to grow, we were interested in its application within healthcare, particularly in the realm of brain tumor detection and classification based on brain CT scans. We developed a tool that allows researchers, patients, doctors, and interested users in general the ability to upload brain CT scans and receive predictions regarding the presence of a tumor and its severity. Other features of our tool website include a background introduction of brain tumors, its symptoms and signs, and resources to further explore the topics. Additonally, we designed a Infobot to allow users to use the website tool in an interactive manner.
+
 
 Data Sets
 ====================
+The following datasets were used for model training:
 
+Tumor location:
+https://universe.roboflow.com/mycollege/tumor-detection-2/dataset/3
+
+Tumor vs no tumor:
+https://universe.roboflow.com/mri-image-dataset/training-69oh4
+
+Brain scans vs non brain scans: <br>
+Used a subset of both of the above datasets for brain scans and used below for random images
+https://www.kaggle.com/datasets/ezzzio/random-images
 
 
 Folder / Structure
@@ -17,14 +27,34 @@ Folder / Structure
         data_515_brain_tumor_computer_vision/
         |-README.md
         |- data_515_brain_tumor_computer_vision/
+            |-model-training/
+                |-sample_data/
+                    |- ...
+                |-model_building.py
+                |-model_building_exploratory.ipynb
+                |-exploratory.ipynb
+            |-models/
+                |-is_scan/
+                    |- ...
+                |-is_tumor/
+                    |- ...
+                |-locate_tumor/
+                    |- ...
+                |-locate_tumor_2/
+                    |- ...
+            |-tests/
+                |-predict/
+                    |- ...
+                |-test_funcs
+                |-test_streamlit
+                |-test_model_building
             |-ui_demo/
-                |- ...
-            |-model_training/
-                |- ...
-            |- tests/
-                |- ...
+                |-pages/
+                    |- ...
+                |-Brain_Tumor_Information
         |- examples
             |-user_guide
+            |-train_models_user_guide
         |- docs/
             |-Component_Specification.md
             |-DATA 515 Technology Review.pptx
@@ -39,13 +69,20 @@ Folder / Structure
 
 
 
+model-training: Contains a file named model_building.py with the code to build and train the models that were used. We did 3 models using YOLOv8, one to detect if an image is a brain scan, one to detect if there is a tumor or not, and then detection of where the tumor is. The .ipynb files show the training runs that we did.
+
+models: Contains the weights and results of training for the 3 models we trained and used in the tool.
+
+ui_demo: Contains Brain_Tumor_Information.py which is the landing page of our streamlit site. The pages directory contains the other pages for the site.
+
+
 ------------------
 
 Software Dependencies and Installation
 ====================
 Python 3 is required
 
-All other dependencies are in requirments.txt file
+All other dependencies are in requirements.txt file
 
 Installation steps:
 
@@ -64,7 +101,7 @@ Installation steps:
 --------------------
 Running the tool
 ====================
-The tool is run by opening a terminal in the data_515_brain_tumor_computer_vision folder and running the following command.
+The tool is run by opening a terminal in the data_515_brain_tumor_computer_vision folder of the project repository and running the following command.
 
 Command to run model:
 
@@ -80,12 +117,12 @@ See the user_guide.pdf in the examples folder for more information on how to use
 
 Use cases
 ====================
-Doctors:
+Doctors: Doctors can use the tool to get an initial review of the brain scan or use it to supplement their own review and diagnosis.
 
-Patients:
+Patients: Patients can use the tool to get a prediction on their own brain scan and find resources about brain tumors.
 
 
-Researchers: Adjust models ....
+Researchers: Researchers can use the tool to see how computer vision can be used for brain tumor detection. Additonally, they can train the models with different parameters or datasets to learn how the tool works and to improve the tool.
 
 
 ----------------------
@@ -93,6 +130,7 @@ Researchers: Adjust models ....
 
 Models
 ======================
+We used the YOLOv8 base models from Ultralytics for classification and segmentation. Documentation and more information about the models can be found [here](https://docs.ultralytics.com/).
 
 
 
@@ -100,7 +138,4 @@ Models
 
 Appendix
 ====================
-INCLUDE AND TEST MODEL in .py file?????
-IF LEAVE OUT, JUSTIFY
-
 Disclaimer: This tool was not created by medical professionals and is not intended to be used in place of medical practices. This is merely a tool to help researchers, patients, and doctors see how computer vision could be used for brain tumor detection and to provide resources on brain tumors.
