@@ -87,7 +87,7 @@ jobs:
       # Next step: run pylint. Anything less than 10/10 will fail.
       - name: Lint with pylint
         run: |
-          pylint data_515_brain_tumor_computer_vision/ui_demo/**/*.py
+          pylint data_515_brain_tumor_computer_vision/**/*.py
 
       # Next step: run the unit tests with code coverage. ##CHANGE FOR MAIN FILE
       - name: Unit tests
