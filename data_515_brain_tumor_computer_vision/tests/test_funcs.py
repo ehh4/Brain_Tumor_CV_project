@@ -169,11 +169,9 @@ class TestFunctions(unittest.TestCase):
         mock_st.button = MagicMock(return_value=True)
         mock_st.columns = MagicMock(return_value=(MagicMock(), MagicMock(),
                                                   MagicMock(), MagicMock()))
-
         infobot_page = ib.InfobotPage()
         infobot_page.render_infobot_page()
-
-        # Use assert to throw exceptions
+        # Test buttons are correct
         mock_st.button.assert_any_call("Learn about Brain Cancer")
         mock_st.button.assert_any_call("Get Brain Tumor Prediction")
         mock_st.button.assert_any_call("Get Diagnosis Next Steps")
@@ -181,28 +179,21 @@ class TestFunctions(unittest.TestCase):
 
     @patch('os.path.splitext')
     def test_is_correct_file_type_correct(self, mock_splittext):
-        "Test is correct file path with mocking"
+        "Test is correct file path with mocking for correct file type"
         mock_splittext.return_value = ('image.jpg', '.jpg')
-
         mock_file = MagicMock()
         mock_file.name = 'image.jpg'
-
         prediction_page = bp.PredictionPage()
-
         res = prediction_page.__is_correct_filetype__(mock_file)
-
         self.assertTrue(res)
 
     @patch('os.path.splitext')
     def test_is_correct_file_type_incorrect(self, mock_splittext):
-        "Test is correct file path with mocking"
+        "Test is correct file path with mocking for incorrect file type"
         mock_splittext.return_value = ('image.csv', '.csv')
-
         mock_file = MagicMock()
         mock_file.name = 'image.csv'
-
         prediction_page = bp.PredictionPage()
-
         with self.assertRaises(TypeError):
             prediction_page.__is_correct_filetype__(mock_file)
 
