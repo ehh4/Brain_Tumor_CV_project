@@ -1,6 +1,9 @@
 # pylint: disable=import-error
 # pylint: disable=no-name-in-module
 
+# These two pylint errors have been 
+# silenced due to the imports working
+
 """
 These tests are for model_building.py which
 provide insight into how the full model was trained. 
@@ -41,6 +44,14 @@ class TestModels(unittest.TestCase):
             "is_tumor_test")
         self.assertEqual('smoke'.upper(), 'SMOKE')
 
+    def test_main(self):
+        """
+        Smoke test to see if main works.
+        Main initiates the creation of the 
+        two classification models
+        """
+        mb.main()
+        self.assertEqual('smoke'.upper(), "SMOKE")
 
 if __name__ == '__main__':
     unittest.main()

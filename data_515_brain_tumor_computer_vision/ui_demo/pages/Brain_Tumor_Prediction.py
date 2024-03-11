@@ -103,7 +103,7 @@ class PredictionPage:
         """
         Checks to see that the uploaded file is the correct filetype
         Parameters:
-            - file: The uploaded file. Ideally is a jpg/png/tiff
+            - file: The uploaded file. A streamlit UploadedFile type
         Returns:
             - True if the image is a jpg, png, or tiff. 
         Exceptions: 
