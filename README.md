@@ -69,7 +69,7 @@ Folder / Structure
 
 
 
-model-training: Contains a file named model_building.py with the code to build and train the models that were used. We did 3 models using YOLOv8, one to detect if an image is a brain scan, one to detect if there is a tumor or not, and then detection of where the tumor is. The .ipynb files show the training runs that we did.
+model-training: Contains a file named model_building.py with the code to build and train the models that were used. The two YOLOv8 models are for the two classification models, one to detect if an image is a brain scan, one to detect if there is a tumor or not. The .ipynb file show the training runs that we did.
 
 models: Contains the weights and results of training for the 3 models we trained and used in the tool.
 
