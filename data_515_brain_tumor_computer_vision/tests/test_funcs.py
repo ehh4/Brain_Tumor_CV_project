@@ -144,6 +144,7 @@ class TestFunctions(unittest.TestCase):
         prediction, confidence = test.__classification_model__(
             test.mod_is_scan, "tests/test_non_scan_image.jpg")
         self.assertEqual(prediction, 0)
+        self.assertGreater(confidence, 0.8)
 
 
     def test_segmentation_model(self):
@@ -152,10 +153,11 @@ class TestFunctions(unittest.TestCase):
         a non-zero area segmentation box 
         """
         test = bp.PredictionPage()
-        boxes, confidence = test.__segmentation_model__(
+        boxes, path = test.__segmentation_model__(
             test.mod_loc_t, "tests/input_raw.jpg")
         area = boxes.data.shape[0]
         self.assertNotEqual(area, 0)
+        self.assertNotEqual(path, None)
 
 
     @patch('ui_demo.pages.infobot.st')
