@@ -135,6 +135,31 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual('smoke'.upper(), 'SMOKE')
 
 
+    def test_classification_model(self):
+        """
+        One shot test that classification model predicts
+        an outcome and gives the confidence
+        """
+        test = bp.PredictionPage()
+        prediction, confidence = test.__classification_model__(
+            test.mod_is_scan, "tests/test_non_scan_image.jpg")
+        self.assertEqual(prediction, 0)
+        self.assertGreater(confidence, 0.8)
+
+
+    def test_segmentation_model(self):
+        """
+        Smoke test that segmentation model predicts
+        a non-zero area segmentation box 
+        """
+        test = bp.PredictionPage()
+        boxes, path = test.__segmentation_model__(
+            test.mod_loc_t, "tests/input_raw.jpg")
+        area = boxes.data.shape[0]
+        self.assertNotEqual(area, 0)
+        self.assertNotEqual(path, None)
+
+
     @patch('ui_demo.pages.infobot.st')
     def test_render_infobot_page(self, mock_st):
         """ infobot mock test. """
