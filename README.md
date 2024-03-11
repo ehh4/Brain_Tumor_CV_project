@@ -122,7 +122,7 @@ Doctors: Doctors can use the tool to get an initial review of the brain scan or 
 Patients: Patients can use the tool to get a prediction on their own brain scan and find resources about brain tumors.
 
 
-Researchers: Researchers can use the tool to see how computer vision can be used for brain tumor detection. Additonally, they can train the models with different parameters or datasets to learn how the tool works and to improve the tool.
+Researchers: Researchers can use the tool to see how computer vision can be used for brain tumor detection. Additionally, they can train the models with different parameters or datasets to learn how the tool works and to improve the tool.
 
 
 ----------------------
