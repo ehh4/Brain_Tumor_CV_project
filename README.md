@@ -55,6 +55,8 @@ Folder / Structure
         |- examples
             |-user_guide
             |-train_models_user_guide
+            |-example_brain_scans/
+                |-...
         |- docs/
             |-Component_Specification.md
             |-DATA 515 Technology Review.pptx
@@ -67,7 +69,7 @@ Folder / Structure
         |-requirements.txt
         |-environment.yml
 
-
+data_515_brain_tumor_computer_vision is the main project directory which contains:
 
 model-training: Contains a file named model_building.py with the code to build and train the models that were used. The two YOLOv8 models are for the two classification models, one to detect if an image is a brain scan, one to detect if there is a tumor or not. The .ipynb file show the training runs that we did.
 
@@ -75,6 +77,7 @@ models: Contains the weights and results of training for the 3 models we trained
 
 ui_demo: Contains Brain_Tumor_Information.py which is the landing page of our streamlit site. The pages directory contains the other pages for the site.
 
+examples contains a user guide for using the tool, trainig the models, and a folder with sample brain scans for users to test the tool.
 
 ------------------
 
