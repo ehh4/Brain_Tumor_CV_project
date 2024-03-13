@@ -21,9 +21,9 @@ Users can upload a brain CT scan and get a predicted tumor severity image back.
     __get_predicted_img__: result_dir is where the predicted img is saved;
                            returns the full img_path.
     __preprocess_img__: returns the grayscaled img of size 640 * 640.
-    __is_correct_filetype__: ~~~
-    __classification_model__: ~~~
-    __segmentation_model__: ~~~
+    __is_correct_filetype__: Checks to make sure the uploaded file is an image
+    __classification_model__: Runs a classification model on the uploaded image
+    __segmentation_model__: Runs a segmentation model on the uploaded image
     render_prediction_page: displays the brain tumor prediction page.
 """
 import os
@@ -50,11 +50,11 @@ class PredictionPage:
 
 
     def __get_predicted_img__(self, result_dir) -> str:
-        """ 
+        """
         Returns predicted img
         Parameters:
             - result_dir: the directory YOLO model save the predicted img in
-        Returns: 
+        Returns:
             - img_path: full predicted img path
         Exceptions:
             - TypeError("result_dir should be a string!"): if result_dir the wrong type
@@ -81,9 +81,9 @@ class PredictionPage:
 
 
     def __preprocess_img__(self, input_image) -> None:
-        """ 
+        """
         Resizes img to 640 * 640 and grayscales it, then saves to the target directory
-        Parameters: 
+        Parameters:
             - input_image: user uploaded img path
         Exceptions:
             - TypeError("[Wrong input type] The input is not a string!"): if input is the wrong type
@@ -105,7 +105,7 @@ class PredictionPage:
         Parameters:
             - file: The uploaded file. A streamlit UploadedFile type
         Returns:
-            - True if the image is a jpg, png, or tiff. 
+            - True if the image is a jpg, png, or tiff.
         Exceptions: 
             - Raises a TypeError if any other filetype
         """
@@ -121,7 +121,7 @@ class PredictionPage:
         """
         Runs an inputted classification model
         Parameters:
-            - model: Must be a YOLOv8 classification model 
+            - model: Must be a YOLOv8 classification model
             and must be saved to the Prediction page class
             - image: The processed image, ready for prediction
         Returns:
@@ -139,7 +139,7 @@ class PredictionPage:
         """
         Runs an inputted segmentation model
         Parameters:
-            - model: Must be a YOLOv8 segmentation model 
+            - model: Must be a YOLOv8 segmentation model
             and must be saved to the Prediction page class
             - image: The processed image, ready for prediction
         Returns:
@@ -205,13 +205,18 @@ class PredictionPage:
                         boxes, img_path = self.__segmentation_model__(
                             self.mod_loc_t, "input.png")
                         if boxes.data.shape[0] == 0:
-                            st.write("After review, no tumor identified")
+                            st.write("After review, our segmentation model returned no locations labelled as tumor. \
+                                     Therefore we conclude there is no tumor identified in the uploaded brain scan. \
+                                     If you would like to try another scan, please upload another image.")
                         else:
                             st.image(img_path)
-                            st.write("Bad news, probably a tumor :(")
+                            st.write("Based on our segmentation model, we believe there is a tumor in the area highlighted above. \
+                                     Please note the accompanying confidence interval. \
+                                     As a disclaimer, this model is still under development and we advise you to \
+                                     contact your healthcare professional for further questions or concerns.")
                     else:
                         st.write(f"Based on our current model, we believe there \
-                                is no tumor found with a {confidence} level")
+                                is no tumor in the uploaded image with a {confidence} confidence level")
                 else:
                     st.write("Unfortunately, this image is not recognized as \
                             a brain scan. Please double-check to ensure you've \
