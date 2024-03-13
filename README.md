@@ -126,7 +126,7 @@ See user_guide in examples folder for troubleshooting and a more complete walkth
 
 To run the tests run the following command from the main project directory, data_515_brain_tumor_computer_vision
 
-        python -m unit test
+        python -m unittest discover
 
 --------------------
 Running the tool
