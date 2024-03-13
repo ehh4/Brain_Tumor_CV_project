@@ -83,9 +83,8 @@ examples contains a user guide for using the tool, trainig the models, and a fol
 
 Software Dependencies and Installation
 ====================
-Python 3 is required
+Python 3 is required with conda
 
-All other dependencies are in requirements.txt file
 
 Installation steps:
 
@@ -93,13 +92,29 @@ Installation steps:
 
         git clone https://github.com/tchiang0/data_515_brain_tumor_computer_vision.git
 
-2. Install pip if not already installed:
+2. Open a terminal and cd into the project repo:
 
-        python -n pip install
+        cd data_515_brain_tumor_computer_vision
 
-3. Run requirements.txt to ensure all dependencies exist:
+3. Create a conda environment with the required packages with the following command:
+    * Note this may take a couple minutes to install the packages <br>
 
-        pip install -r requirements.txt
+
+            conda env create -f environment.yml
+
+4. Activate the environment:
+
+        conda activate project_env
+
+5. cd into the main project directory, data_515_brain_tumor_computer_vision:
+
+        cd data_515_brain_tumor_computer_vision
+
+6. run the tool using:
+
+        python -m streamlit run ui_demo/Brain_Tumor_Information.py
+
+See user_guide in examples folder for troubleshooting and a more complete walkthough of installation
 
 --------------------
 Running the tool
