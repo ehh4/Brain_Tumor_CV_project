@@ -3,7 +3,6 @@ jupyter
 matplotlib
 notebook
 numpy
-opencv-python
 pandas
 pylint
 scipy
@@ -13,3 +12,4 @@ torchvision
 ultralytics
 streamlit
 dill
+
