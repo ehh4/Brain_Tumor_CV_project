@@ -38,7 +38,7 @@ def landing_page():
                     </p>""",
                     unsafe_allow_html=True)
     img_path = 'ui_demo/brain_img.png'
-    st.image(img_path, caption='Brain Structure and their Functions' )
+    st.image(img_path, caption='Brain Structure and their Functions')
 
     st.markdown(
       """

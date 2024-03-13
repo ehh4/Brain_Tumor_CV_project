@@ -38,7 +38,7 @@ class InfobotPage:
         prediction_response = "Here is the \
         [Brain Tumor Prediction Page](http://localhost:8501/Brain_Tumor_Prediction)"
         diagnosis_response = "If your healthcare provider suspects a brain tumor, \
-        a number of tests will be conducted, includding <br> \
+        a number of tests will be conducted, including <br> \
         <li> A neurological exam: Test different parts of your brain to \
         understand how they are working </li> \
         <li> Head CT scan and Brain MRI\
