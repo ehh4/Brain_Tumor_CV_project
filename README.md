@@ -62,7 +62,7 @@ Folder / Structure
             |-DATA 515 Technology Review.pptx
             |-Function_Specification.md
             |-Milestones.md
-            |-diagram.png
+            |-Component diagram.png
             |-users_usecase.md
             |-DATA 515 Technology Review.pdf
         |-pyproject.toml
