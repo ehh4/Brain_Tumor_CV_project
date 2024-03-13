@@ -55,6 +55,7 @@ Folder / Structure
         |- examples
             |-user_guide
             |-train_models_user_guide
+            |-Project demo.mp4
             |-example_brain_scans/
                 |-...
         |- docs/
