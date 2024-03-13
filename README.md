@@ -85,7 +85,6 @@ Software Dependencies and Installation
 ====================
 Python 3 is required with conda
 
-All other dependencies are in requirements.txt file
 
 Installation steps:
 
@@ -97,7 +96,7 @@ Installation steps:
 
         cd data_515_brain_tumor_computer_vision
 
-3. Create a conda envrionment with the required packages with the following command:
+3. Create a conda environment with the required packages with the following command:
     * Note this may take a couple minutes to install the packages <br>
 
 
@@ -115,7 +114,7 @@ Installation steps:
 
         python -m streamlit run ui_demo/Brain_Tumor_Information.py
 
-
+See user_guide in examples folder for troubleshooting and a more complete walkthough of installation
 
 --------------------
 Running the tool
