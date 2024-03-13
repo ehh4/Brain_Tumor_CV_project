@@ -98,9 +98,10 @@ Installation steps:
         cd data_515_brain_tumor_computer_vision
 
 3. Create a conda envrionment with the required packages with the following command:
-    * Note this may take a couple minutes to install the packages
+    * Note this may take a couple minutes to install the packages <br>
 
-        conda env create -f environment.yml
+
+            conda env create -f environment.yml
 
 4. Activate the environment:
 
