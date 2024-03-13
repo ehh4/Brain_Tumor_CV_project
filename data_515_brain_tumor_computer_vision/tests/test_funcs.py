@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 import cv2
 import ui_demo.pages.Brain_Tumor_Prediction as bp
-import ui_demo.pages.infobot as ib
+import ui_demo.pages.Infobot as ib
 import ui_demo.Brain_Tumor_Information as bi
 
 
@@ -160,7 +160,7 @@ class TestFunctions(unittest.TestCase):
         self.assertNotEqual(path, None)
 
 
-    @patch('ui_demo.pages.infobot.st')
+    @patch('ui_demo.pages.Infobot.st')
     def test_render_infobot_page(self, mock_st):
         """ infobot mock test. """
         # Mock the streamlit app
