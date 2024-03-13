@@ -107,15 +107,26 @@ Installation steps:
 
         conda activate project_env
 
-5. cd into the main project directory, data_515_brain_tumor_computer_vision:
+5. There are some integration issues we faced with the conda environments and opencv. Please run the following commands to either install the packages or ensure that the requirements are met. 
+
+        pip install opencv-python
+
+        pip install ultralytics
+
+
+6. cd into the main project directory, data_515_brain_tumor_computer_vision:
 
         cd data_515_brain_tumor_computer_vision
 
-6. run the tool using:
+7. run the tool using:
 
         python -m streamlit run ui_demo/Brain_Tumor_Information.py
 
 See user_guide in examples folder for troubleshooting and a more complete walkthough of installation
+
+To run the tests run the following command from the main project directory, data_515_brain_tumor_computer_vision
+
+        python -m unit test
 
 --------------------
 Running the tool
